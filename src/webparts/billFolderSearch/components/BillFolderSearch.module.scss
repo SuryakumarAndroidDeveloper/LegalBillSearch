@@ -1,0 +1,248 @@
+.billFolderSearch {
+  padding: 20px;
+  background-color: #f3f2f1; // Light gray background
+  border: 1px solid #d2d0ce;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #323130;
+}
+
+.searchContainer {
+  display: flex;
+  gap: 10px; // Adds spacing between search field, dropdown, and button
+}
+
+.searchBox {
+  flex-grow: 1; // Makes the search field responsive
+}
+
+.dropdown {
+  min-width: 150px;
+}
+
+.searchButton {
+  flex-shrink: 0;
+}
+
+.card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.error {
+  margin-top: 10px;
+}
+.profile {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+  .searchBox {
+    margin-bottom: 20px;
+
+    .ms-TextField {
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  }
+
+  .resultCount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    span {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .ms-Dropdown {
+      min-width: 160px;
+    }
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+  }
+
+  .resolution {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .resolutionContent {
+      flex: 1;
+
+      .tag {
+        display: inline-block;
+        margin-right: 8px;
+        padding: 4px 8px;
+        font-size: 10px;
+        font-weight: bold;
+        color: white;
+        background-color: #5b5bff;
+        border-radius: 12px;
+      }
+
+      h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 8px 0;
+      }
+
+      p {
+        font-size: 14px;
+        color: #666;
+        margin: 0;
+      }
+
+      small {
+        font-size: 12px;
+        color: #999;
+      }
+    }
+
+    .resolutionActions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+
+      .ms-IconButton {
+        border: none;
+        background: none;
+
+        &:hover {
+          color: #0078d4;
+        }
+      }
+
+      .ms-Checkbox {
+        .ms-CheckboxInput {
+          border: 1px solid #ccc;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
+.sidebar {
+  width: 300px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+  .heading {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .filterSection {
+    margin-bottom: 20px;
+  }
+
+  .actionButton {
+    margin-top: 20px;
+  }
+}.container {
+  display: flex;
+  height: 100vh; /* Full screen height */
+  width: 100vw; /* Full screen width */
+  gap: 20px;
+}
+
+.sidebar {
+  width: 300px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Allows scrolling if the sidebar content overflows */
+}
+
+.content {
+  flex: 1; /* Takes the remaining space next to the sidebar */
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow-y: auto; /* Enables scrolling for long content */
+}
+
+.searchBox {
+  margin-bottom: 20px;
+}
+
+.resultCount {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.resolution {
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.resolutionContent {
+  margin-bottom: 10px;
+}
+
+.resolutionActions {
+  display: flex;
+  gap: 10px;
+}
+
+.judiciaryTag {
+  background-color: rgb(39, 145, 226);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px; // This gives the curved edges
+  display: inline-block;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.iconHeader {
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+  z-index: 1;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.resId {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+
+
+
