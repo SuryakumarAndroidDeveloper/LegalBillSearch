@@ -1,0 +1,271 @@
+.billFolderSearch {
+  padding: 20px;
+  background-color: #f3f2f1; // Light gray background
+  border: 1px solid #d2d0ce;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: #323130;
+}
+
+.searchContainer {
+  display: flex;
+  gap: 10px; // Adds spacing between search field, dropdown, and button
+}
+
+.searchBox {
+  flex-grow: 1; // Makes the search field responsive
+}
+
+.dropdown {
+  min-width: 150px;
+}
+
+.searchButton {
+  flex-shrink: 0;
+}
+
+.card {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.error {
+  margin-top: 10px;
+}
+.profile {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+  .searchBox {
+    margin-bottom: 20px;
+
+  }
+
+  .resultCount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    span {
+      font-size: 14px;
+      font-weight: 500;
+      color: #333;
+    }
+
+  }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+  }
+
+  .resolution {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .resolutionContent {
+      flex: 1;
+
+      .tag {
+        display: inline-block;
+        margin-right: 8px;
+        padding: 4px 8px;
+        font-size: 10px;
+        font-weight: bold;
+        color: white;
+        background-color: #5b5bff;
+        border-radius: 12px;
+      }
+
+      h4 {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 8px 0;
+      }
+
+      p {
+        font-size: 14px;
+        color: #666;
+        margin: 0;
+      }
+
+      small {
+        font-size: 12px;
+        color: #999;
+      }
+    }
+
+    .resolutionActions {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+}
+.sidebar {
+  width: 25%;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+  .heading {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom:2px;
+    margin-top: 2px;
+
+  }
+
+  .filterSection {
+    margin-bottom: 3px;
+    margin-left: 15px;
+  }
+
+  .actionButton {
+    margin-top: 20px;
+  }
+}.container {
+  display: flex;
+  height: 100vh; /* Full screen height */
+  max-width: 123%;
+  width: 100%;
+  gap: 10px;
+  background-color: #776d6d0f;
+}
+
+.sidebar {
+  width: 20%;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Allows scrolling if the sidebar content overflows */
+}
+
+.content {
+  flex: 1; /* Takes the remaining space next to the sidebar */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+ // margin-right: 113px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
+  overflow: auto;
+  overflow-y: auto; /* Enables scrolling for long content */
+}
+
+.searchBox {
+  margin-bottom: 20px;
+}
+
+.resultCount {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.resolution {
+  // padding: 10px 0;
+  // border-bottom: 1px solid #ddd;
+  padding: 2px 15px;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+border: 1px solid #e0e0e0;
+border-radius: 10px;
+margin:7px -2px; /* Adds vertical spacing + 5px margin left/right */
+box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.05);
+transition: box-shadow 0.2s ease;
+}
+
+.resolutionContent {
+  margin-bottom: 10px;
+}
+
+.resolutionActions {
+  display: flex;
+  gap: 10px;
+}
+
+.judiciaryTag {
+  background-color: rgb(39, 145, 226);
+  color: white;
+  padding: 1px 10px;
+  border-radius: 12px; // This gives the curved edges
+  display: inline-block;
+  font-weight: 600;
+  margin-bottom: 1px;
+}
+.billtypeTag {
+  background-color: rgb(119, 62, 232);
+  color: white;
+  padding: 1px 10px;
+  border-radius: 12px; // This gives the curved edges
+  display: inline-block;
+  font-weight: 600;
+  margin-bottom: 1px;
+  margin-left: 6px;
+}
+.iconHeader {
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 6px;
+  z-index: 1;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1px;
+}
+
+.resId {
+  font-weight: bold;
+  font-size: 14px;
+}
+.dropdowndesign{
+  //margin-right: 10px;
+  max-width: 291px;
+}
+.restitle{
+  margin-top: 5px;
+}
+.ressummary{
+  margin-top: -11px;
+    margin-bottom: 3px;
+}
+
+.dateRange {
+  display: flex;
+  flex-direction: column; // stack vertically
+  gap: 6px; // optional spacing between fields
+  max-width: 100%; // full width of the sidebar
+  width: 100%;
+}
+
+
+
+
+
