@@ -38,6 +38,7 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
     KeyWord?: string;
     Judiciary_x0028_Region_x0029_?: string;
     BillType?: string;
+    DocumentLink?: string;
   }
 
   const [resolution, setResolutions] = useState<IResolution[]>([]);
@@ -65,6 +66,7 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
             "Created",
             "Modified",
             "BusinessUnit",
+            "DocumentLink",
             "Category",
             "KeyWord",
             "Judiciary_x0028_Region_x0029_",
@@ -160,6 +162,12 @@ const filteredResolutions = resolution.filter((res) => {
     setSearchQuery(newValue || '');
   };
 
+  // Handle card click event
+  const handleCardClick = (url: string): void => {
+    window.open(url, '_blank');
+
+  };
+
 
   return (
     <div className={styles.container}>
@@ -195,7 +203,7 @@ const filteredResolutions = resolution.filter((res) => {
         {/* Render Filtered Resolutions */}
         {!loading &&
           filteredResolutions.map((res) => (
-            <div key={res.Id} className={styles.resolution}>
+            <div key={res.Id} className={styles.resolution} onClick={() => handleCardClick(res.DocumentLink? res.DocumentLink : '')}>
               <div className={styles.resolutionContent}>
                 <div className={styles.headerRow}>
                   <span className={styles.resId}>ID: {res.Id}</span>
