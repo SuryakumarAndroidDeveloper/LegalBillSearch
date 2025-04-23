@@ -8,8 +8,8 @@ import { ChoiceGroup, IChoiceGroupOption, Dropdown, IDropdownOption, Label, Text
 
 interface FiltersType {
   federalState: string;
-  businessUnit: string;
-  category: string;
+  businessUnit: string[];
+  category: string[];
   startDate: string;
   endDate: string;
 }
@@ -90,30 +90,69 @@ export const Sidebar: React.FC<SidebarProps> = ({ filters, onFilterChange ,sp}) 
 
       <div className={styles.filterSection}>
         <Label>Category</Label>
-        <Dropdown className={styles.dropdowndesign}
-          placeholder="Select Category"
-          options={categoryOptions}
-          selectedKey={filters.category}
-          onChange={(ev, option) => {
-            if (option) {
-              onFilterChange({ ...filters, category: option.key.toString() });
-            }
-          }}
-        />
+        <Dropdown
+  className={styles.dropdowndesign}
+  placeholder="Select Category"
+  options={categoryOptions}
+  selectedKeys={filters.category}
+  onChange={(ev, option) => {
+    if (!option) return;
+
+    let updatedCategories: string[];
+
+    if (option.key === 'all') {
+      // Selecting "All" clears other selections
+      updatedCategories = ['all'];
+    } else {
+      // Remove "all" if it's selected
+      const current = filters.category.filter(k => k !== 'all');
+
+      if (filters.category.includes(option.key.toString())) {
+        updatedCategories = current.filter(k => k !== option.key); // uncheck
+      } else {
+        updatedCategories = [...current, option.key.toString()]; // check
+      }
+    }
+
+    // If user unselects all items, revert to "All"
+    if (updatedCategories.length === 0) updatedCategories = ['all'];
+
+    onFilterChange({ ...filters, category: updatedCategories });
+  }}
+  multiSelect
+/>
       </div>
 
       <div className={styles.filterSection}>
         <Label>Business Unit</Label>
-          <Dropdown className={styles.dropdowndesign}
-          placeholder="Select BusinessUnit"
-          options={businessUnitOptions}
-          selectedKey={filters.businessUnit}
-          onChange={(ev, option) => {
-            if (option) {
-              onFilterChange({ ...filters, businessUnit: option.key.toString() });
-            }
-          }}
-        />
+        <Dropdown
+  className={styles.dropdowndesign}
+  placeholder="Select Business Unit"
+  options={businessUnitOptions}
+  selectedKeys={filters.businessUnit}
+  onChange={(ev, option) => {
+    if (!option) return;
+
+    let updatedUnits: string[];
+
+    if (option.key === 'all') {
+      updatedUnits = ['all'];
+    } else {
+      const current = filters.businessUnit.filter(k => k !== 'all');
+
+      if (filters.businessUnit.includes(option.key.toString())) {
+        updatedUnits = current.filter(k => k !== option.key);
+      } else {
+        updatedUnits = [...current, option.key.toString()];
+      }
+    }
+
+    if (updatedUnits.length === 0) updatedUnits = ['all'];
+
+    onFilterChange({ ...filters, businessUnit: updatedUnits });
+  }}
+  multiSelect
+/>
       </div>
 
       {/* Date Range Filter */}

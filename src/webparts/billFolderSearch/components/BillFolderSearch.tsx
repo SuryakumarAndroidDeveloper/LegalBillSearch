@@ -39,6 +39,8 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
     Judiciary_x0028_Region_x0029_?: string;
     BillType?: string;
     DocumentLink?: string;
+    AddendumDate?: string;
+    progressofbill?: string;
   }
 
   const [resolution, setResolutions] = useState<IResolution[]>([]);
@@ -46,8 +48,8 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
   const [error, setError] = useState<string | null>(null);
   const [filters, setFilters] = useState({
     federalState: 'both',
-    businessUnit: 'all',
-    category: 'all',
+    businessUnit: ['all'],
+    category: ['all'],
     startDate: '',
     endDate: '',
   });
@@ -70,7 +72,9 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
             "Category",
             "KeyWord",
             "Judiciary_x0028_Region_x0029_",
-            "BillType"
+            "BillType",
+            "AddendumDate",
+            "ProgressoftheBill"
           )
           .top(5000)();
   
@@ -125,13 +129,22 @@ const filteredResolutions = resolution.filter((res) => {
   //    (filters.businessUnit === 'FIJI' && isFIJI) ||
   //    (filters.businessUnit === 'POM' && isPOM);
 
-  const matchesBusinessUnit =
-  filters.businessUnit === 'all' ||
-  businessUnit.includes(filters.businessUnit.toLowerCase());
+  // const matchesBusinessUnit =
+  // filters.businessUnit === 'all' ||
+  // businessUnit.includes(filters.businessUnit.toLowerCase());
 
-    const matchesCategoryChanges =
-  filters.category === 'all' ||
-  category.toLowerCase() === filters.category.toLowerCase();
+  //   const matchesCategoryChanges =
+  // filters.category === 'all' ||
+  // category.toLowerCase() === filters.category.toLowerCase();
+
+  const matchesBusinessUnit =
+  filters.businessUnit.includes('all') ||
+  filters.businessUnit.some(unit => businessUnit.includes(unit.toLowerCase()));
+
+const matchesCategoryChanges =
+  filters.category.includes('all') ||
+  filters.category.some(cat => category.includes(cat.toLowerCase()));
+
 
   const matchesFederalState =
     filters.federalState === 'both' ||
@@ -206,7 +219,7 @@ const filteredResolutions = resolution.filter((res) => {
             <div key={res.Id} className={styles.resolution} onClick={() => handleCardClick(res.DocumentLink? res.DocumentLink : '')}>
               <div className={styles.resolutionContent}>
                 <div className={styles.headerRow}>
-                  <span className={styles.resId}>ID: {res.Id}</span>
+                  {/* <span className={styles.resId}>ID: {res.Id}</span> */}
                   {/* <div className={styles.resolutionActions}>
                     <IconButton iconProps={{ iconName: 'Search' }} title="View" />
                     <IconButton iconProps={{ iconName: 'Download' }} title="Download" />
@@ -215,12 +228,14 @@ const filteredResolutions = resolution.filter((res) => {
                 <span className={styles.judiciaryTag}>
                   {res.Judiciary_x0028_Region_x0029_?.toUpperCase()}
                 </span>
-                <span className={styles.billtypeTag}>
+                {/* <span className={styles.billtypeTag}>
                   {res.BillType?.toUpperCase()}
-                </span>
+                </span> */}
                 <h4 className={styles.restitle}>{res.Title}</h4>
                 <p className={styles.ressummary}>{res.Summary}</p>
                 <small><strong>Introduced:</strong> {res.Created?.split('T')[0]}</small><br />
+                <small><strong>AddendumDate:</strong> {res.AddendumDate}</small><br />
+                <small><strong>ProgressOfBill:</strong> {res.progressofbill}</small><br />
                 {/* <small><strong>BillType:</strong> {res.BillType}</small><br />
                 <small><strong>Business Unit:</strong> {res.BusinessUnit}</small><br />
                 <small><strong>Category:</strong> {res.Category}</small><br />
