@@ -2,22 +2,23 @@ import * as React from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import { useState,useEffect } from 'react';
 import styles from "./BillFolderSearch.module.scss";
-import { spfi } from "@pnp/sp";
+import { SPFI } from "@pnp/sp";
 //import { SPFx } from "@pnp/sp/presets/all";
 import { ChoiceGroup, IChoiceGroupOption, Dropdown, IDropdownOption, Label, TextField } from '@fluentui/react';
 
-interface FiltersType {
-  federalState: string;
-  businessUnit: string[];
-  category: string[];
-  startDate: string;
-  endDate: string;
-}
-
 interface SidebarProps {
-  filters: FiltersType;
-  onFilterChange: (filters: FiltersType) => void;
-  sp: ReturnType<typeof spfi>;
+  sp: SPFI;
+  filters: {
+    federalState: string;
+    businessUnit: string[];
+    category: string[];
+    startDate: string;
+    endDate: string;
+    selectedStateRegion: string[];
+    priority: string;
+    progressOfBill: string;
+  };
+  onFilterChange: (newFilters: unknown) => void;
 }
 
 
@@ -25,6 +26,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ filters, onFilterChange ,sp}) 
  // const [selectedCongress, setSelectedCongress] = useState<string | undefined>('all');
   const [categoryOptions, setCategoryOptions] = useState<IDropdownOption[]>([]);
   const [businessUnitOptions, setBusinessUnitOptions] = useState<IDropdownOption[]>([]);
+  const [stateRegionOptions, setStateRegionOptions] = useState<IDropdownOption[]>([]);
+  const [priorityOptions, setPriorityOptions] = useState<IDropdownOption[]>([]);
+  const [progressOptions, setProgressOptions] = useState<IDropdownOption[]>([]);
 
   const federalStateOptions: IChoiceGroupOption[] = [
     { key: 'federal', text: 'Federal' },
@@ -60,6 +64,45 @@ export const Sidebar: React.FC<SidebarProps> = ({ filters, onFilterChange ,sp}) 
         }));
         setBusinessUnitOptions([{ key: 'all', text: 'All' }, ...options]);
       }
+
+//       const stateField = await sp.web.lists.getByTitle('State');
+//  console.log("StateField",stateField);
+
+ const stateItems = await sp.web.lists.getByTitle('State').items.select("Title")();
+ const stateOptions = stateItems.map((item: { Title: string }) => ({
+   key: item.Title,
+   text: item.Title,
+ }));
+ setStateRegionOptions([{ key: 'all', text: 'All' }, ...stateOptions]);
+     
+
+      const Priority= await sp.web.lists
+        .getByTitle('Bill & Proposal')
+        .fields.getByInternalNameOrTitle('Priority')
+        .select("Choices")();
+
+        if (Priority.Choices && Array.isArray(Priority.Choices)) {
+          const options = Priority.Choices.map((choice: string) => ({
+            key: choice,
+            text: choice,
+          }));
+          setPriorityOptions([{ key: 'all', text: 'All' }, ...options]);
+        }
+
+        const ProgressoftheBill= await sp.web.lists
+        .getByTitle('Bill & Proposal')
+        .fields.getByInternalNameOrTitle('ProgressoftheBill')
+        .select("Choices")();
+
+        if (ProgressoftheBill.Choices && Array.isArray(ProgressoftheBill.Choices)) {
+          const options = ProgressoftheBill.Choices.map((choice: string) => ({
+            key: choice,
+            text: choice,
+          }));
+          setProgressOptions([{ key: 'all', text: 'All' }, ...options]);
+        }
+
+
     })().catch((error) => {
       console.error('Error fetching field choices:', error);
     });
@@ -73,7 +116,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ filters, onFilterChange ,sp}) 
   const handleDateChange = (key: 'startDate' | 'endDate', value?: string):void => {
     onFilterChange({ ...filters, [key]: value });
   };
-
   return (
     <div className={styles.sidebar}>
       <h4 className={styles.heading}><SlidersHorizontal style={{ width: '14px', height: '14px' }} className="w-1 h-1 text-gray-600" />Filter Results</h4>
@@ -87,6 +129,43 @@ export const Sidebar: React.FC<SidebarProps> = ({ filters, onFilterChange ,sp}) 
           onChange={handleFederalStateChange}
         />
       </div>
+      {filters.federalState === 'state' && (
+  <div className={styles.filterSection}>
+    <Label>Select State/Region</Label>
+    <Dropdown
+      className={styles.dropdowndesign}
+      placeholder="Select State/Region"
+      options={stateRegionOptions}
+      selectedKeys={filters.selectedStateRegion}
+      onChange={(ev, option) => {
+        if (!option) return;
+
+        let updatedStates: string[];
+
+        if (option.key === 'all') {
+          updatedStates = ['all'];
+        } else {
+          const current = filters.selectedStateRegion.filter(k => k !== 'all');
+
+          if (filters.selectedStateRegion.includes(option.key.toString())) {
+            updatedStates = current.filter(k => k !== option.key); // uncheck
+          } else {
+            updatedStates = [...current, option.key.toString()]; // check
+          }
+        }
+
+        if (updatedStates.length === 0) updatedStates = ['all'];
+
+        onFilterChange({ ...filters, selectedStateRegion: updatedStates });
+      }}
+      multiSelect
+    />
+  </div>
+)}
+
+
+
+      
 
       <div className={styles.filterSection}>
         <Label>Category</Label>
@@ -154,6 +233,41 @@ export const Sidebar: React.FC<SidebarProps> = ({ filters, onFilterChange ,sp}) 
   multiSelect
 />
       </div>
+
+      {/* Priority Filter */}
+<div className={styles.filterSection}>
+  <Label>Priority</Label>
+  <Dropdown
+    className={styles.dropdowndesign}
+    placeholder="Select Priority"
+    options={priorityOptions}
+    selectedKey={filters.priority}
+    onChange={(_, option) => {
+      if (option) {
+        const newPriority = option.key === 'all' ? undefined : option.key.toString();
+        onFilterChange({ ...filters, priority: newPriority });
+      }
+    }}
+  />
+</div>
+
+{/* Progress of the Bill Filter */}
+<div className={styles.filterSection}>
+  <Label>Progress of the Bill</Label>
+  <Dropdown
+    className={styles.dropdowndesign}
+    placeholder="Select Progress"
+    options={progressOptions}
+    selectedKey={filters.progressOfBill}
+    onChange={(_, option) => {
+      if (option) {
+        const newProgress = option.key === 'all' ? undefined : option.key.toString();
+        onFilterChange({ ...filters, progressOfBill: newProgress });
+      }
+    }}
+  />
+</div>
+
 
       {/* Date Range Filter */}
       <div className={styles.filterSection}>

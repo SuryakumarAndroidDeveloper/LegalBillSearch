@@ -41,6 +41,7 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
     DocumentLink?: string;
     AddendumDate?: string;
     progressofbill?: string;
+    Priority?: string;
   }
 
   const [resolution, setResolutions] = useState<IResolution[]>([]);
@@ -52,6 +53,9 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
     category: ['all'],
     startDate: '',
     endDate: '',
+    selectedStateRegion: ['all'],
+    priority: 'all',
+    progressOfBill: 'all',
   });
 
   // Fetch data from SharePoint in useEffect
@@ -74,6 +78,7 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
             "Judiciary_x0028_Region_x0029_",
             "BillType",
             "AddendumDate",
+            "Priority",
             "ProgressoftheBill"
           )
           .top(5000)();
@@ -96,6 +101,8 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
     });
   }, []);
 
+  
+
 // Filter logic including sidebar filters
 const filteredResolutions = resolution.filter((res) => {
   const title = res?.Title?.toLowerCase() || '';
@@ -106,6 +113,7 @@ const filteredResolutions = resolution.filter((res) => {
   const summary = res?.Summary?.toLowerCase() || '';
   const keywords = res?.KeyWord ? String(res.KeyWord).toLowerCase() : '';
   const dynamicTags = res?.DynamicTags ? String(res.DynamicTags).toLowerCase() : '';
+
 
 
   const judiciary = res?.Judiciary_x0028_Region_x0029_?.toLowerCase() || '';
@@ -145,6 +153,18 @@ const matchesCategoryChanges =
   filters.category.includes('all') ||
   filters.category.some(cat => category.includes(cat.toLowerCase()));
 
+  const matchesSelectedStateRegion =
+  filters.federalState !== 'state' || // Skip check if federalState is not "state"
+  filters.selectedStateRegion.includes('all') || // Match all if 'all' is selected
+  (judiciary && filters.selectedStateRegion.some(region => judiciary.includes(region.toLowerCase())));
+
+  const matchesPriority =
+  filters.priority === 'all' ||
+  (res.Priority && res.Priority.toLowerCase() === filters.priority.toLowerCase());
+
+const matchesProgressOfBill =
+  filters.progressOfBill === 'all' ||
+  (res.progressofbill && res.progressofbill.toLowerCase() === filters.progressOfBill.toLowerCase());
 
   const matchesFederalState =
     filters.federalState === 'both' ||
@@ -166,8 +186,9 @@ const matchesCategoryChanges =
       matchesDateRange = false;
     }
   }
+  
 
-  return (matchesSearch && matchesBusinessUnit && matchesFederalState && matchesCategoryChanges && matchesDateRange);
+  return (matchesSearch && matchesBusinessUnit && matchesFederalState && matchesCategoryChanges && matchesDateRange && matchesSelectedStateRegion && matchesPriority && matchesProgressOfBill);
 });
 
   // Handle search input change
@@ -194,8 +215,8 @@ const matchesCategoryChanges =
             value={searchQuery}
             onChange={handleSearch}
             iconProps={{ iconName: 'Search' }}
-          />
-        </div>
+  />
+</div>
   
         {/* Result Count */}
         <div className={styles.resultCount}>
@@ -212,6 +233,8 @@ const matchesCategoryChanges =
         {error && (
           <MessageBar messageBarType={MessageBarType.error}>{error}</MessageBar>
         )}
+        
+
   
         {/* Render Filtered Resolutions */}
         {!loading &&
@@ -236,6 +259,7 @@ const matchesCategoryChanges =
                 <small><strong>Introduced:</strong> {res.Created?.split('T')[0]}</small><br />
                 <small><strong>AddendumDate:</strong> {res.AddendumDate}</small><br />
                 <small><strong>ProgressOfBill:</strong> {res.progressofbill}</small><br />
+                <small><strong>Priority:</strong> {res.Priority}</small><br />
                 {/* <small><strong>BillType:</strong> {res.BillType}</small><br />
                 <small><strong>Business Unit:</strong> {res.BusinessUnit}</small><br />
                 <small><strong>Category:</strong> {res.Category}</small><br />
