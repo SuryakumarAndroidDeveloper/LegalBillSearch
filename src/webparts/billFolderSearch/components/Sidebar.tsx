@@ -15,8 +15,8 @@ interface SidebarProps {
     startDate: string;
     endDate: string;
     selectedStateRegion: string[];
-    priority: string;
-    progressOfBill: string;
+    Priority: string;
+    ProgressoftheBill: string;
   };
   onFilterChange: (newFilters: unknown) => void;
 }
@@ -80,6 +80,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ filters, onFilterChange ,sp}) 
         .getByTitle('Bill & Proposal')
         .fields.getByInternalNameOrTitle('Priority')
         .select("Choices")();
+        
 
         if (Priority.Choices && Array.isArray(Priority.Choices)) {
           const options = Priority.Choices.map((choice: string) => ({
@@ -241,11 +242,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ filters, onFilterChange ,sp}) 
     className={styles.dropdowndesign}
     placeholder="Select Priority"
     options={priorityOptions}
-    selectedKey={filters.priority}
+    selectedKey={filters.Priority}
     onChange={(_, option) => {
       if (option) {
-        const newPriority = option.key === 'all' ? undefined : option.key.toString();
-        onFilterChange({ ...filters, priority: newPriority });
+        const newPriority = option.key === 'all' ? 'all' : option.key.toString();
+        onFilterChange({ ...filters, Priority: newPriority });
       }
     }}
   />
@@ -258,11 +259,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ filters, onFilterChange ,sp}) 
     className={styles.dropdowndesign}
     placeholder="Select Progress"
     options={progressOptions}
-    selectedKey={filters.progressOfBill}
+    selectedKey={filters.ProgressoftheBill}
     onChange={(_, option) => {
       if (option) {
-        const newProgress = option.key === 'all' ? undefined : option.key.toString();
-        onFilterChange({ ...filters, progressOfBill: newProgress });
+        const newProgress = option.key === 'all' ? 'all' : option.key.toString();
+        onFilterChange({ ...filters, ProgressoftheBill: newProgress });
       }
     }}
   />

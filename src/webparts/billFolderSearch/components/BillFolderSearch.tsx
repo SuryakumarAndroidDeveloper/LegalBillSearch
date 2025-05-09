@@ -40,7 +40,7 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
     BillType?: string;
     DocumentLink?: string;
     AddendumDate?: string;
-    progressofbill?: string;
+    ProgressoftheBill?: string;
     Priority?: string;
   }
 
@@ -54,8 +54,8 @@ const BillFolderSearch: React.FC<IBillFolderSearchProps> = ({ context }) => {
     startDate: '',
     endDate: '',
     selectedStateRegion: ['all'],
-    priority: 'all',
-    progressOfBill: 'all',
+    Priority: 'all',
+    ProgressoftheBill: 'all',
   });
 
   // Fetch data from SharePoint in useEffect
@@ -159,17 +159,21 @@ const matchesCategoryChanges =
   (judiciary && filters.selectedStateRegion.some(region => judiciary.includes(region.toLowerCase())));
 
   const matchesPriority =
-  filters.priority === 'all' ||
-  (res.Priority && res.Priority.toLowerCase() === filters.priority.toLowerCase());
+  filters.Priority === 'all' ||
+  (res.Priority && res.Priority.toLowerCase() === filters.Priority.toLowerCase());
+
+  // const matchesPriority =
+  // !filters.Priority || (res.Priority && res.Priority.toLowerCase() === filters.Priority.toLowerCase());
+
 
 const matchesProgressOfBill =
-  filters.progressOfBill === 'all' ||
-  (res.progressofbill && res.progressofbill.toLowerCase() === filters.progressOfBill.toLowerCase());
+  filters.ProgressoftheBill === 'all' ||
+  (res.ProgressoftheBill && res.ProgressoftheBill.toLowerCase() === filters.ProgressoftheBill.toLowerCase());
 
   const matchesFederalState =
     filters.federalState === 'both' ||
     (filters.federalState === 'federal' && judiciary.includes('federal')) ||
-    (filters.federalState === 'state' && judiciary.includes('state'));
+    (filters.federalState === 'state' && !judiciary.includes('federal'));
 
     let matchesDateRange = true;
   if (filters.startDate) {
@@ -215,8 +219,8 @@ const matchesProgressOfBill =
             value={searchQuery}
             onChange={handleSearch}
             iconProps={{ iconName: 'Search' }}
-  />
-</div>
+          />
+        </div>
   
         {/* Result Count */}
         <div className={styles.resultCount}>
@@ -258,7 +262,7 @@ const matchesProgressOfBill =
                 <p className={styles.ressummary}>{res.Summary}</p>
                 <small><strong>Introduced:</strong> {res.Created?.split('T')[0]}</small><br />
                 <small><strong>AddendumDate:</strong> {res.AddendumDate}</small><br />
-                <small><strong>ProgressOfBill:</strong> {res.progressofbill}</small><br />
+                <small><strong>ProgressOfBill:</strong> {res.ProgressoftheBill}</small><br />
                 <small><strong>Priority:</strong> {res.Priority}</small><br />
                 {/* <small><strong>BillType:</strong> {res.BillType}</small><br />
                 <small><strong>Business Unit:</strong> {res.BusinessUnit}</small><br />
